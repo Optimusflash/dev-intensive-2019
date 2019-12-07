@@ -34,7 +34,7 @@
                 android:layout_marginRight="@dimen/spacing_huge_32"
                 android:layout_marginTop="36dp"/>
 
-            <ImageView
+            <ru.skillbranch.devintensive.ui.custom.CircleImageView
                 android:id="@+id/iv_avatar"
                 android:layout_width="@dimen/avatar_round_size"
                 android:layout_height="@dimen/avatar_round_size"
@@ -213,7 +213,9 @@
             android:id="@+id/wr_about"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/spacing_normal_16">
+            android:layout_marginLeft="@dimen/spacing_normal_16"
+            app:counterMaxLength="128">
+
 
             <EditText
                 style="@style/Profile.EditText.MultiLine"
