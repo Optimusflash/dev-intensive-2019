@@ -74,7 +74,6 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun initViews(savedInstanceState: Bundle?) {
-        isEditMode = savedInstanceState?.getBoolean(IS_EDIT_MODE, false) ?: false
 
         viewFields = mapOf(
             "nickName" to tv_nick_name,
@@ -86,6 +85,9 @@ class ProfileActivity : AppCompatActivity() {
             "rating" to tv_rating,
             "respect" to tv_respect
         )
+
+        isEditMode = savedInstanceState?.getBoolean(IS_EDIT_MODE, false) ?: false
+        showCurrentMode(isEditMode)
 
         btn_edit.setOnClickListener {
             if (isEditMode) saveProfileInfo()
