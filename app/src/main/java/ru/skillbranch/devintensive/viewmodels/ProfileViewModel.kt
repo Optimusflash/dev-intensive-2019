@@ -25,22 +25,48 @@ class ProfileViewModel : ViewModel() {
 
     }
 
-    fun getProfileData():LiveData<Profile> = profileData
+    fun getProfileData(): LiveData<Profile> = profileData
 
     fun getTheme(): LiveData<Int> = appTheme
 
-    fun saveProfileDate(profile: Profile){
+    fun saveProfileDate(profile: Profile) {
         repository.saveProfile(profile)
         profileData.value = profile
     }
 
     fun switchTheme() {
-        if (appTheme.value == AppCompatDelegate.MODE_NIGHT_YES){
+        if (appTheme.value == AppCompatDelegate.MODE_NIGHT_YES) {
             appTheme.value = AppCompatDelegate.MODE_NIGHT_NO
-        }else{
+        } else {
             appTheme.value = AppCompatDelegate.MODE_NIGHT_YES
         }
 
         repository.saveAppTheme(appTheme.value!!)
+    }
+
+    fun isCorrectURL(text: String): Boolean {
+
+        val incorrectWords = listOf(
+            "enterprise",
+            "features",
+            "topics",
+            "collections",
+            "trending",
+            "events",
+            "marketplace",
+            "pricing",
+            "nonprofit",
+            "customer-stories",
+            "security",
+            "login",
+            "join"
+        ).joinToString("|")
+
+        return text.isBlank() ||
+             text.matches(Regex("""^(https://)?(www\.)?github\.com/(?!($incorrectWords)/?$)[\-A-Za-z0-9]+/?$"""))
+
+
+
+
     }
 }

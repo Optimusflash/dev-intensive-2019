@@ -4,11 +4,13 @@ import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.util.AttributeSet
 import android.util.Log
 import android.widget.ImageView
 import androidx.annotation.ColorRes
 import androidx.annotation.Dimension
+import androidx.annotation.DrawableRes
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.extensions.dpToPx
 import ru.skillbranch.devintensive.extensions.pxToDp
@@ -32,7 +34,7 @@ class CircleImageView @JvmOverloads constructor(
 
     private var bitmapShader: BitmapShader? = null
     private var bitmap: Bitmap? = null
-    //    private var mInitialized: Boolean
+    private var isInitialized: Boolean
     private var borderBounds: RectF
     private var bitmapDrawBounds: RectF
     private var borderPaint: Paint
@@ -56,10 +58,32 @@ class CircleImageView @JvmOverloads constructor(
         bitmapDrawBounds = RectF()
         shaderMatrix = Matrix()
 
+        isInitialized = true
+
         setup()
         setupBitmap()
     }
 
+
+    override fun setImageResource(@DrawableRes resId: Int) {
+        super.setImageResource(resId)
+        setupBitmap()
+    }
+
+    override fun setImageDrawable(drawable: Drawable?) {
+        super.setImageDrawable(drawable)
+        setupBitmap()
+    }
+
+    override fun setImageBitmap(bitmap: Bitmap) {
+        super.setImageBitmap(bitmap)
+        setupBitmap()
+    }
+
+    override fun setImageURI(uri: Uri?) {
+        super.setImageURI(uri)
+        setupBitmap()
+    }
 
     override fun onDraw(canvas: Canvas) {
         Log.e("M_ImageAvatarView", "onDraw")
@@ -120,6 +144,10 @@ class CircleImageView @JvmOverloads constructor(
     private fun setupBitmap(){
         Log.e("M_ImageAvatarView", "setupBitmap")
         super.setScaleType(SCALE_TYPE)
+
+        if (!isInitialized) {
+            return
+        }
         bitmap = getBitmapFromDrawable(drawable)
 
         if (bitmap == null){
@@ -158,7 +186,7 @@ class CircleImageView @JvmOverloads constructor(
         shaderMatrix.setScale(scale, scale)
         shaderMatrix.postTranslate(dx, dy)
         bitmapShader?.setLocalMatrix(shaderMatrix)
-        invalidate()
+        if(isInitialized)invalidate()
 
     }
 

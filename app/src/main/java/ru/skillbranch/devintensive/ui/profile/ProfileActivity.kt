@@ -5,15 +5,20 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
+import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_profile.*
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.models.Profile
+import ru.skillbranch.devintensive.utils.Utils
+import ru.skillbranch.devintensive.utils.Utils.getDrawableInitials
 import ru.skillbranch.devintensive.viewmodels.ProfileViewModel
 
 class ProfileActivity : AppCompatActivity() {
@@ -61,6 +66,10 @@ class ProfileActivity : AppCompatActivity() {
             for ((k, v) in viewFields) {
                 v.text = it[k].toString()
             }
+            Utils.toInitials(profile.firstName, profile.lastName)?.let {
+                iv_avatar.setImageDrawable(getDrawableInitials(this, it))
+            }
+                ?: iv_avatar.setImageResource(R.drawable.avatar_default)
         }
     }
 
@@ -87,6 +96,29 @@ class ProfileActivity : AppCompatActivity() {
         btn_switch_theme.setOnClickListener {
             viewModel.switchTheme()
         }
+
+        et_repository.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (isEditMode) {
+                    val text = s.toString()
+                    if (viewModel.isCorrectURL(text)) {
+                        wr_repository.error = ""
+                        wr_repository.isErrorEnabled = false
+                    } else {
+                        wr_repository.error = "Невалидный адрес репозитория"
+                        wr_repository.isErrorEnabled = true
+                    }
+                }
+            }
+        })
     }
 
     private fun showCurrentMode(isEdit: Boolean) {
@@ -132,7 +164,7 @@ class ProfileActivity : AppCompatActivity() {
             firstName = et_first_name.text.toString(),
             lastName = et_last_name.text.toString(),
             about = et_about.text.toString(),
-            repository = et_repository.text.toString()
+            repository = if(viewModel.isCorrectURL(et_repository.text.toString())) et_repository.text.toString() else ""
         ).apply {
             viewModel.saveProfileDate(this)
         }
