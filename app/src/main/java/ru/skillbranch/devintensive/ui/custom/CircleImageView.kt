@@ -27,10 +27,22 @@ class CircleImageView @JvmOverloads constructor(
         private const val DEFAULT_BORDER_WIDTH = 2
         private val SCALE_TYPE = ScaleType.CENTER_CROP
         private val BITMAP_CONFIG = Bitmap.Config.ARGB_8888
+
+        val bgColors = arrayOf(
+            Color.parseColor("#7BC862"),
+            Color.parseColor("#E17076"),
+            Color.parseColor("#FAA774"),
+            Color.parseColor("#6EC9CB"),
+            Color.parseColor("#65AADD"),
+            Color.parseColor("#A695E7"),
+            Color.parseColor("#EE7AAE"),
+            Color.parseColor("#2196F3")
+        )
     }
 
     private var borderColor = DEFAULT_BORDER_COLOR
     private var borderWidth = context.dpToPx(DEFAULT_BORDER_WIDTH)
+    private var initials: String = "??"
 
     private var bitmapShader: BitmapShader? = null
     private var bitmap: Bitmap? = null
@@ -40,6 +52,8 @@ class CircleImageView @JvmOverloads constructor(
     private var borderPaint: Paint
     private var bitmapPaint: Paint
     private var shaderMatrix: Matrix
+    private var initialsPaint: Paint
+
 
 
 
@@ -54,6 +68,7 @@ class CircleImageView @JvmOverloads constructor(
 
         bitmapPaint = Paint(Paint.ANTI_ALIAS_FLAG)
         borderPaint = Paint(Paint.ANTI_ALIAS_FLAG)
+        initialsPaint = Paint(Paint.ANTI_ALIAS_FLAG)
         borderBounds = RectF()
         bitmapDrawBounds = RectF()
         shaderMatrix = Matrix()
@@ -88,10 +103,42 @@ class CircleImageView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         Log.e("M_ImageAvatarView", "onDraw")
         //super.onDraw(canvas)
-        canvas.drawOval(bitmapDrawBounds,bitmapPaint)
+
+        if (drawable!=null) {
+            drawAvatar(canvas)
+        } else{
+            drawInitials(canvas)
+        }
+    }
+
+    private fun drawInitials(canvas: Canvas) {
+        initialsPaint.color = initialsToColor(initials)
+        canvas.drawOval(bitmapDrawBounds, initialsPaint)
+        canvas.drawOval(borderBounds, borderPaint)
+
+        with(initialsPaint) {
+            color = Color.WHITE
+            textAlign = Paint.Align.CENTER
+            textSize = height * 0.33f
+        }
+
+        val offsetY = (initialsPaint.descent() + initialsPaint.ascent()) / 2
+        canvas.drawText(initials, bitmapDrawBounds.centerX(),bitmapDrawBounds.centerY() - offsetY,initialsPaint)
+    }
+
+    private fun drawAvatar(canvas: Canvas) {
+        canvas.drawOval(bitmapDrawBounds, bitmapPaint)
         if (borderPaint.strokeWidth > 0f) {
             canvas.drawOval(borderBounds, borderPaint)
         }
+    }
+
+    private fun initialsToColor(letters: String): Int {
+        val byte = letters[0].toByte()
+        val len = bgColors.size
+        val deg = byte / len.toDouble()
+        val index = ((deg % 1) * len).toInt()
+        return bgColors[index]
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -139,6 +186,8 @@ class CircleImageView @JvmOverloads constructor(
             strokeWidth = borderWidth
         }
 
+
+
     }
 
     private fun setupBitmap(){
@@ -152,6 +201,7 @@ class CircleImageView @JvmOverloads constructor(
 
         if (bitmap == null){
             Log.e("M_ImageAvatarView", "setupBitmap bitmap == null returned")
+
             return
         }
 
@@ -211,7 +261,6 @@ class CircleImageView @JvmOverloads constructor(
     }
 
     @Dimension
-    //fun getBorderWidth(): Int = borderWidth.toDp().toInt()
     fun getBorderWidth(): Int =context.pxToDp(borderWidth).toInt()
 
     fun setBorderWidth(@Dimension dp: Int) {
@@ -229,6 +278,11 @@ class CircleImageView @JvmOverloads constructor(
 
     fun setBorderColor(@ColorRes colorId: Int) {
         borderColor = resources.getColor(colorId, context.theme)
+    }
+
+    fun setInitials(initials: String){
+        this.initials = initials
+        invalidate()
     }
 
 }

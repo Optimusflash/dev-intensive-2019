@@ -11,14 +11,12 @@ import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
-import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_profile.*
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.models.Profile
 import ru.skillbranch.devintensive.utils.Utils
-import ru.skillbranch.devintensive.utils.Utils.getDrawableInitials
 import ru.skillbranch.devintensive.viewmodels.ProfileViewModel
 
 class ProfileActivity : AppCompatActivity() {
@@ -33,7 +31,7 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var viewFields: Map<String, TextView>
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.AppTheme)
+       // setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
         initViews(savedInstanceState)
@@ -67,7 +65,8 @@ class ProfileActivity : AppCompatActivity() {
                 v.text = it[k].toString()
             }
             Utils.toInitials(profile.firstName, profile.lastName)?.let {
-                iv_avatar.setImageDrawable(getDrawableInitials(this, it))
+                iv_avatar.setImageDrawable(null)
+                iv_avatar.setInitials(it)
             }
                 ?: iv_avatar.setImageResource(R.drawable.avatar_default)
         }
