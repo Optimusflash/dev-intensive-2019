@@ -8,10 +8,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_profile_constraint.*
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.ui.adapters.ChatAdapter
 import ru.skillbranch.devintensive.ui.adapters.ChatItemTouchHelperCallback
@@ -38,8 +36,22 @@ class MainActivity : AppCompatActivity() {
         }
         val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         val touchCallback = ChatItemTouchHelperCallback(chatAdapter){
-            viewModel.addToArchive(it.id)
-            Snackbar.make(rv_chat_list,"Выточно хотите добавить ${it.title} в архив", Snackbar.LENGTH_LONG).show()
+            val itemId = it.id
+            viewModel.addToArchive(itemId)
+            val snackBar = Snackbar.make(
+                rv_chat_list,
+                "Вы точно хотите добавить ${it.title} в архив?",
+                Snackbar.LENGTH_LONG
+            )
+            snackBar.setAction("отмена") {
+                viewModel.restoreFromArchive(itemId)
+                Snackbar.make(
+                    rv_chat_list,
+                    "Данные восстановлены из архива",
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            }
+            snackBar.show()
         }
 
         val touchHelper = ItemTouchHelper(touchCallback)
