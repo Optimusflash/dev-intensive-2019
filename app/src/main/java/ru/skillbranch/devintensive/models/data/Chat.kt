@@ -57,7 +57,7 @@ data class Chat(
                 lastMessageDate()?.shortFormat(),
                 user.isOnline
             )
-        } else{
+        } else {
             ChatItem(
                 id,
                 null,

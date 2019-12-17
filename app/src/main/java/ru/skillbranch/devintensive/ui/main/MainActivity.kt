@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.skillbranch.devintensive.R
+import ru.skillbranch.devintensive.models.data.ChatItem
 import ru.skillbranch.devintensive.ui.adapters.ChatAdapter
 import ru.skillbranch.devintensive.ui.adapters.ChatItemTouchHelperCallback
 import ru.skillbranch.devintensive.ui.group.GroupActivity
@@ -35,24 +36,7 @@ class MainActivity : AppCompatActivity() {
             Snackbar.make(rv_chat_list,"Click on ${it.title}", Snackbar.LENGTH_LONG).show()
         }
         val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
-        val touchCallback = ChatItemTouchHelperCallback(chatAdapter){
-            val itemId = it.id
-            viewModel.addToArchive(itemId)
-            val snackBar = Snackbar.make(
-                rv_chat_list,
-                "Вы точно хотите добавить ${it.title} в архив?",
-                Snackbar.LENGTH_LONG
-            )
-            snackBar.setAction("отмена") {
-                viewModel.restoreFromArchive(itemId)
-                Snackbar.make(
-                    rv_chat_list,
-                    "Данные восстановлены из архива",
-                    Snackbar.LENGTH_SHORT
-                ).show()
-            }
-            snackBar.show()
-        }
+        val touchCallback = ChatItemTouchHelperCallback(chatAdapter){showSnackBarAction(it)}
 
         val touchHelper = ItemTouchHelper(touchCallback)
         touchHelper.attachToRecyclerView(rv_chat_list)
@@ -70,12 +54,32 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun showSnackBarAction(item: ChatItem) {
+        val itemId = item.id
+        viewModel.addToArchive(itemId)
+        val snackBar = Snackbar.make(
+            rv_chat_list,
+            "Вы точно хотите добавить ${item.title} в архив?",
+            Snackbar.LENGTH_LONG
+        )
+        snackBar.setAction("отмена") {
+            viewModel.restoreFromArchive(itemId)
+            Snackbar.make(
+                rv_chat_list,
+                "Данные восстановлены из архива",
+                Snackbar.LENGTH_SHORT
+            ).show()
+        }
+        snackBar.show()
+    }
+
     private fun initToolBar() {
         setSupportActionBar(toolbar)
     }
 
     private fun initViewModel() {
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
-        viewModel. getChatData().observe(this, Observer { chatAdapter.updateData(it) })
+        viewModel.getChatData().observe(this, Observer {
+            chatAdapter.updateData(it) })
     }
 }
