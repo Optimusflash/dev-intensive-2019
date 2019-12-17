@@ -36,6 +36,7 @@ class MainViewModel: ViewModel() {
 
     private fun createArchivedItem(archivedItems: List<Chat>): ChatItem {
         val chat = archivedItems.sortedByDescending { it.lastMessageDate() }.first()
+        val count = archivedItems.sumBy { it.unreadableMessageCount() }
 
         return ChatItem(
             id = "-1",
@@ -43,7 +44,7 @@ class MainViewModel: ViewModel() {
             initials = "",
             title = "Архив чатов",
             shortDescription = chat.lastMessageShort().first,
-            messageCount = chat.unreadableMessageCount(),
+            messageCount = count,
             lastMessageDate = chat.lastMessageDate()?.shortFormat(),
             chatType = ChatType.ARCHIVE
         )
