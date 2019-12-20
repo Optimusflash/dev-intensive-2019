@@ -19,6 +19,7 @@ import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.models.data.UserItem
 import ru.skillbranch.devintensive.ui.adapters.UserAdapter
 import ru.skillbranch.devintensive.viewmodels.GroupViewModel
+import androidx.appcompat.widget.SearchView
 
 class GroupActivity : AppCompatActivity() {
 
@@ -36,9 +37,9 @@ class GroupActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_search, menu)
         val searchItem = menu?.findItem(R.id.action_search)
-        val searchView = searchItem?.actionView as androidx.appcompat.widget.SearchView
+        val searchView = searchItem?.actionView as SearchView
         searchView.queryHint = "Введите имя пользователя"
-        searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener{
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 viewModel.handleSearchQuery(query)
                 return true
