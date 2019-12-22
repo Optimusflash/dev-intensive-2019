@@ -47,7 +47,8 @@ class MainViewModel: ViewModel() {
             shortDescription = chat.lastMessageShort().first,
             messageCount = count,
             lastMessageDate = chat.lastMessageDate()?.shortFormat(),
-            chatType = ChatType.ARCHIVE
+            chatType = ChatType.ARCHIVE,
+            author = "@${chat.lastMessageShort().second}"
         )
 
     }
