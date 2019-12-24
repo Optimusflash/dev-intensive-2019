@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.item_user_list.*
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.models.data.UserItem
 
-class UserAdapter(val listener:(UserItem)->Unit): RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
+class UserAdapter(private val listener:(UserItem)->Unit): RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
     var items: List<UserItem> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {

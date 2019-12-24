@@ -3,14 +3,26 @@
 
     <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@android:color/white</item>
-        <item name="colorPrimaryDark">@color/color_primary_dark</item>
-        <item name="colorAccent">@color/color_accent_night</item>
-        <item name="colorAccentedSurface">@color/color_divider_light</item>
-        <item name="colorIcon">@android:color/white</item>
+        <item name="colorPrimary">@color/color_white</item>
+        <item name="colorPrimaryDark">@android:color/black</item>
+        <item name="colorAccent">@color/color_accent_dark</item>
+
+
+        <item name="colorToolbar">@color/color_toolbar_dark</item>
+        <item name="colorBackground">@color/color_background_dark</item>
+        <item name="colorOnlineIndicator">@color/color_indicator_dark</item>
+        <item name="colorOnlineIndicatorBackground">@color/color_white</item>
+        <item name="colorTextDescription">@color/color_text_description_dark</item>
+        <item name="colorTextDate">@color/color_text_date_dark</item>
+        <item name="colorCounterBackground">@color/color_icon_dark</item>
+        <item name="colorItemSelected">@color/color_accent_dark</item>
+        <item name="colorIconArchive">@color/color_icon_dark</item>
+        <item name="colorSwipedBackground">@color/color_swiped_background_dark</item>
+        <item name="colorSnackbarBackground">@color/color_snackbar_background_dark</item>
+        <item name="colorSnackbarText">@color/color_snackbar_text_dark</item>
+        <item name="colorActivityBackground">@color/color_activity_background_dark</item>
+        <item name="colorChipBackground">@color/color_chip_background_dark</item>
         <item name="colorDivider">@color/color_divider_dark</item>
-        <item name="android:statusBarColor">@android:color/black</item>
 
     </style>
-
 </resources>

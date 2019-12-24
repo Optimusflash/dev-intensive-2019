@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/colorActivityBackground"
     tools:context=".ui.group.GroupActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -16,6 +17,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorToolbar"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
         </androidx.appcompat.widget.Toolbar>
@@ -38,11 +40,6 @@
             android:layout_marginBottom="@dimen/spacing_small_8"
             android:visibility="gone">
 
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="test"
-                app:closeIconVisible="true"/>
 
         </com.google.android.material.chip.ChipGroup>
         <androidx.recyclerview.widget.RecyclerView
@@ -61,6 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="@dimen/spacing_normal_16"
+        app:backgroundTint="?attr/colorAccent"
         app:srcCompat = "@drawable/ic_arrow_forward_black_24dp"
         android:visibility="invisible"
         android:scaleX="0"

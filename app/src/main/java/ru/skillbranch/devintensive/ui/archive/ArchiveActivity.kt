@@ -1,8 +1,10 @@
 package ru.skillbranch.devintensive.ui.archive
 
 import android.os.Bundle
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -10,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_archive.*
 import ru.skillbranch.devintensive.R
-import ru.skillbranch.devintensive.models.data.ChatItem
+import ru.skillbranch.devintensive.extensions.getColorByThemeAttr
 import ru.skillbranch.devintensive.ui.adapters.ChatAdapter
 import ru.skillbranch.devintensive.ui.adapters.ChatItemTouchHelperCallback
 import ru.skillbranch.devintensive.ui.custom.ChatItemDecoration
@@ -47,12 +49,20 @@ class ArchiveActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
+        //delegate.localNightMode = AppCompatDelegate.MODE_NIGHT_YES
         archiveAdapter = ChatAdapter{
             Toast.makeText(this,"Click on ${it.title}",Toast.LENGTH_SHORT).show()
         }
         val divider = ChatItemDecoration(this)
 
-        val touchCallback = ChatItemTouchHelperCallback(archiveAdapter,true){showSnackBarAction(it)}
+        val touchCallback = ChatItemTouchHelperCallback(archiveAdapter,true){
+            val itemId = it.id
+            viewModel.restoreFromArchive(itemId)
+            showSnackBarMessage("Вы точно хотите восстановить ${it.title} из архива?"){
+                viewModel.addToArchive(itemId)
+                showSnackBarMessage("Данные не восстановлены из архива")
+            }
+        }
 
         val touchHelper = ItemTouchHelper(touchCallback)
         touchHelper.attachToRecyclerView(rv_archive_list)
@@ -66,22 +76,22 @@ class ArchiveActivity : AppCompatActivity() {
 
     }
 
-    private fun showSnackBarAction(item: ChatItem) {
-        val itemId = item.id
-        viewModel.restoreFromArchive(itemId)
-        val snackBar = Snackbar.make(
-            rv_archive_list,
-            "Вы точно хотите восстановить ${item.title} из архива?",
-            Snackbar.LENGTH_LONG
-        )
-        snackBar.setAction("отмена") {
-            viewModel.addToArchive(itemId)
-            Snackbar.make(
-                rv_archive_list,
-                "Данные не восстановлены из архива",
-                Snackbar.LENGTH_SHORT
-            ).show()
-        }
+    private fun showSnackBarMessage(message:String,duration: Int = Snackbar.LENGTH_SHORT): Snackbar{
+        val snackBar = Snackbar.make(rv_archive_list, message, duration)
+        val view = snackBar.view
+        val backgroundColor = view.getColorByThemeAttr(R.attr.colorSnackbarBackground)
+        val textColor = view.getColorByThemeAttr(R.attr.colorSnackbarText)
+        val textView =view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
+        textView.setTextColor(textColor)
+        view.setBackgroundColor(backgroundColor)
         snackBar.show()
+        return snackBar
+    }
+    private fun showSnackBarMessage(message:String,action: (ArchiveViewModel)-> Unit){
+        showSnackBarMessage(message, Snackbar.LENGTH_LONG).apply {
+            setAction("Отмена"){
+                action.invoke(viewModel)
+            }
+        }
     }
 }

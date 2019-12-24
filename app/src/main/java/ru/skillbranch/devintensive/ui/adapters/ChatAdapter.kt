@@ -1,6 +1,5 @@
 package ru.skillbranch.devintensive.ui.adapters
 
-import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,10 +12,11 @@ import kotlinx.android.synthetic.main.item_chat_archive.*
 import kotlinx.android.synthetic.main.item_chat_group.*
 import kotlinx.android.synthetic.main.item_chat_single.*
 import ru.skillbranch.devintensive.R
+import ru.skillbranch.devintensive.extensions.getColorByThemeAttr
 import ru.skillbranch.devintensive.models.data.ChatItem
 import ru.skillbranch.devintensive.models.data.ChatType
 
-class ChatAdapter(val listener: (ChatItem)->Unit): RecyclerView.Adapter<ChatAdapter.ChatItemViewHolder>() {
+class ChatAdapter(private val listener: (ChatItem)->Unit): RecyclerView.Adapter<ChatAdapter.ChatItemViewHolder>() {
     companion object{
         private const val ARCHIVE_TYPE = 0
         private const val SINGLE_TYPE = 1
@@ -41,8 +41,6 @@ class ChatAdapter(val listener: (ChatItem)->Unit): RecyclerView.Adapter<ChatAdap
             else -> ArchiveViewHolder(inflater.inflate(R.layout.item_chat_archive, parent, false))
         }
 
-        /*val convertView = inflater.inflate(R.layout.item_chat_single, parent, false)
-        return SingleViewHolder(convertView)*/
     }
 
     override fun onBindViewHolder(holder: ChatItemViewHolder, position: Int) {
@@ -111,11 +109,13 @@ class ChatAdapter(val listener: (ChatItem)->Unit): RecyclerView.Adapter<ChatAdap
         }
 
         override fun onItemSelected() {
-            itemView.setBackgroundColor(Color.LTGRAY)
+            val color = itemView.getColorByThemeAttr(R.attr.colorBackground)
+            itemView.setBackgroundColor(color)
         }
 
         override fun onItemCleared() {
-            itemView.setBackgroundColor(Color.WHITE)
+            val color = itemView.getColorByThemeAttr(R.attr.colorBackground)
+            itemView.setBackgroundColor(color)
         }
     }
 
@@ -147,11 +147,13 @@ class ChatAdapter(val listener: (ChatItem)->Unit): RecyclerView.Adapter<ChatAdap
         }
 
         override fun onItemSelected() {
-            itemView.setBackgroundColor(Color.LTGRAY)
+            val color = itemView.getColorByThemeAttr(R.attr.colorBackground)
+            itemView.setBackgroundColor(color)
         }
 
         override fun onItemCleared() {
-            itemView.setBackgroundColor(Color.WHITE)
+            val color = itemView.getColorByThemeAttr(R.attr.colorBackground)
+            itemView.setBackgroundColor(color)
         }
     }
 

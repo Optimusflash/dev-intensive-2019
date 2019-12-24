@@ -26,6 +26,7 @@ class ChatItemDecoration(val context: Context) : RecyclerView.ItemDecoration() {
         val right = parent.width - parent.paddingRight
         val childCount = parent.childCount
         for (i in 0 until childCount) {
+            if (i == childCount - 1) return
             val child: View = parent.getChildAt(i)
             val params = child.layoutParams as RecyclerView.LayoutParams
             val top = child.bottom + params.bottomMargin

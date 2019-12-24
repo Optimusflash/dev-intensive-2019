@@ -3,8 +3,8 @@
 
     <item>
         <shape android:shape="oval">
-            <solid android:color="@color/color_green"/>
-            <stroke android:color="@android:color/white"
+            <solid android:color="?attr/colorOnlineIndicator"/>
+            <stroke android:color="?attr/colorOnlineIndicatorBackground"
                 android:width="2dp"/>
         </shape>
     </item>

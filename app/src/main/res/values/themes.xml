@@ -6,9 +6,23 @@
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
         <item name="colorAccent">@color/color_accent</item>
-        <item name="colorAccentedSurface">@color/color_primary_light</item>
-        <item name="colorIcon">@color/color_gray</item>
-        <item name="colorDivider">@color/color_divider_dark</item>
 
+
+
+        <item name="colorToolbar">@color/color_primary</item>
+        <item name="colorBackground">@color/color_background_light</item>
+        <item name="colorOnlineIndicator">@color/color_indicator_light</item>
+        <item name="colorOnlineIndicatorBackground">@color/color_white</item>
+        <item name="colorTextDescription">@color/color_text_description_light</item>
+        <item name="colorTextDate">@color/color_text_date_light</item>
+        <item name="colorCounterBackground">@color/color_counter_light</item>
+        <item name="colorItemSelected">@color/color_primary</item>
+        <item name="colorIconArchive">@color/color_icon_light</item>
+        <item name="colorSwipedBackground">@color/color_swiped_background_light</item>
+        <item name="colorSnackbarBackground">@color/color_swiped_background_light</item>
+        <item name="colorSnackbarText">@color/color_snackbar_text_light</item>
+        <item name="colorActivityBackground">@color/color_activity_background_light</item>
+        <item name="colorChipBackground">@color/color_chip_background_light</item>
+        <item name="colorDivider">@color/color_divider_light</item>
     </style>
 </resources>

@@ -13,5 +13,21 @@
         <attr name="cv_borderColor" format="color"/>
         <attr name="cv_borderWidth" format="dimension"/>
     </declare-styleable>
-    
+
+    <attr name="colorBackground" format="reference"/>
+    <attr name="colorActivityBackground" format="reference"/>
+    <attr name="colorOnlineIndicator" format="reference"/>
+    <attr name="colorOnlineIndicatorBackground" format="reference"/>
+    <attr name="colorTextDescription" format="reference"/>
+    <attr name="colorTextDate" format="reference"/>
+    <attr name="colorCounterBackground" format="reference"/>
+    <attr name="colorItemSelected" format="reference"/>
+    <attr name="colorIconArchive" format="reference"/>
+    <attr name="colorToolbar" format="reference"/>
+    <attr name="colorSwipedBackground" format="reference"/>
+    <attr name="colorSnackbarBackground" format="reference"/>
+    <attr name="colorSnackbarText" format="reference"/>
+    <attr name="colorChipBackground" format="reference"/>
+
+
 </resources>

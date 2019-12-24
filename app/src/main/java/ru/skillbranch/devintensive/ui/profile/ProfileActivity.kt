@@ -31,7 +31,7 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var viewFields: Map<String, TextView>
 
     override fun onCreate(savedInstanceState: Bundle?) {
-       // setTheme(R.style.AppTheme)
+        //setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
         initViews(savedInstanceState)

@@ -1,19 +1,19 @@
 package ru.skillbranch.devintensive.ui.main
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.skillbranch.devintensive.R
-import ru.skillbranch.devintensive.models.data.ChatItem
+import ru.skillbranch.devintensive.extensions.getColorByThemeAttr
 import ru.skillbranch.devintensive.models.data.ChatType
 import ru.skillbranch.devintensive.ui.adapters.ChatAdapter
 import ru.skillbranch.devintensive.ui.adapters.ChatItemTouchHelperCallback
@@ -30,7 +30,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         initToolBar()
         initViews()
         initViewModel()
@@ -60,17 +59,28 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
+        //delegate.localNightMode = AppCompatDelegate.MODE_NIGHT_YES
+
         chatAdapter = ChatAdapter{
-            Snackbar.make(rv_chat_list,"Click on ${it.title}", Snackbar.LENGTH_LONG).show()
 
             if (it.chatType == ChatType.ARCHIVE){
                 val intent = Intent(this, ArchiveActivity::class.java)
                 startActivity(intent)
-            }
+            } else
+            showSnackBarMessage("Click on ${it.title}",Snackbar.LENGTH_SHORT)
         }
         val divider = ChatItemDecoration(this)
-        //val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
-        val touchCallback = ChatItemTouchHelperCallback(chatAdapter){showSnackBarAction(it)}
+//        val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
+//        divider.setDrawable(resources.getDrawable(R.drawable.divider,theme))
+
+        val touchCallback = ChatItemTouchHelperCallback(chatAdapter){
+            val itemId = it.id
+            viewModel.addToArchive(itemId)
+            showSnackBarMessage("Вы точно хотите добавить ${it.title} в архив?"){
+                viewModel.restoreFromArchive(itemId)
+                showSnackBarMessage("Данные не добавлены в архив")
+            }
+        }
 
         val touchHelper = ItemTouchHelper(touchCallback)
         touchHelper.attachToRecyclerView(rv_chat_list)
@@ -86,26 +96,10 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+
+
     }
 
-    private fun showSnackBarAction(item: ChatItem) {
-        val itemId = item.id
-        viewModel.addToArchive(itemId)
-        val snackBar = Snackbar.make(
-            rv_chat_list,
-            "Вы точно хотите добавить ${item.title} в архив?",
-            Snackbar.LENGTH_LONG
-        )
-        snackBar.setAction("отмена") {
-            viewModel.restoreFromArchive(itemId)
-            Snackbar.make(
-                rv_chat_list,
-                "Данные не добавлены в архив",
-                Snackbar.LENGTH_SHORT
-            ).show()
-        }
-        snackBar.show()
-    }
 
     private fun initToolBar() {
         setSupportActionBar(toolbar)
@@ -115,5 +109,25 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         viewModel.getChatData().observe(this, Observer {
             chatAdapter.updateData(it) })
+    }
+
+    private fun showSnackBarMessage(message:String,duration: Int=Snackbar.LENGTH_SHORT): Snackbar{
+        val snackBar = Snackbar.make(rv_chat_list, message, duration)
+        val view = snackBar.view
+        val backgroundColor = view.getColorByThemeAttr(R.attr.colorSnackbarBackground)
+        val textColor = view.getColorByThemeAttr(R.attr.colorSnackbarText)
+        val textView =view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
+        textView.setTextColor(textColor)
+        view.setBackgroundColor(backgroundColor)
+
+        snackBar.show()
+        return snackBar
+    }
+    private fun showSnackBarMessage(message:String,action: (MainViewModel)-> Unit){
+        showSnackBarMessage(message, Snackbar.LENGTH_LONG).apply {
+            setAction("Отмена"){
+                action.invoke(viewModel)
+            }
+        }
     }
 }
