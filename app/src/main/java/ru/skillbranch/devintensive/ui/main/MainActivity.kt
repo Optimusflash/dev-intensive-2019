@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.view.Menu
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
@@ -59,7 +61,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
-        //delegate.localNightMode = AppCompatDelegate.MODE_NIGHT_YES
+        delegate.localNightMode = AppCompatDelegate.MODE_NIGHT_YES
 
         chatAdapter = ChatAdapter{
 
@@ -69,9 +71,9 @@ class MainActivity : AppCompatActivity() {
             } else
             showSnackBarMessage("Click on ${it.title}",Snackbar.LENGTH_SHORT)
         }
-        val divider = ChatItemDecoration(this)
-//        val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
-//        divider.setDrawable(resources.getDrawable(R.drawable.divider,theme))
+//        val divider = ChatItemDecoration(this)
+        val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
+        divider.setDrawable(resources.getDrawable(R.drawable.divider,theme))
 
         val touchCallback = ChatItemTouchHelperCallback(chatAdapter){
             val itemId = it.id

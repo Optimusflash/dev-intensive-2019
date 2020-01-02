@@ -54,12 +54,16 @@ class ChatAdapter(private val listener: (ChatItem)->Unit): RecyclerView.Adapter<
     fun updateData(data: List<ChatItem>){
 
         Log.e("M_ChatAdapter", "update data adapter - new data ${data.size} hash: ${data.hashCode()}" +
-        "old data ${items.size} hash: ${items.hashCode()}")
+        " old data ${items.size} hash: ${items.hashCode()}")
 
         val diffCallback = object : DiffUtil.Callback(){
-            override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean = items[oldItemPosition].id == data[newItemPosition].id
+            override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean{
+                return items[oldItemPosition].id == data[newItemPosition].id
+            }
 
-            override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean = items[oldItemPosition].hashCode() == data[newItemPosition].hashCode()
+            override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+               return items[oldItemPosition].hashCode() == data[newItemPosition].hashCode()
+            }
             override fun getOldListSize(): Int = items.size
 
             override fun getNewListSize(): Int = data.size
