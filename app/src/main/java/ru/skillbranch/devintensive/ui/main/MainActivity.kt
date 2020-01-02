@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
-        delegate.localNightMode = AppCompatDelegate.MODE_NIGHT_YES
+        //delegate.localNightMode = AppCompatDelegate.MODE_NIGHT_YES
 
         chatAdapter = ChatAdapter{
 

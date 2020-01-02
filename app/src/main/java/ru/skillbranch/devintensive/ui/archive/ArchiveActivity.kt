@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
@@ -53,8 +54,9 @@ class ArchiveActivity : AppCompatActivity() {
         archiveAdapter = ChatAdapter{
             Toast.makeText(this,"Click on ${it.title}",Toast.LENGTH_SHORT).show()
         }
-        val divider = ChatItemDecoration(this)
-
+        //val divider = ChatItemDecoration(this)
+        val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
+        divider.setDrawable(resources.getDrawable(R.drawable.divider,theme))
         val touchCallback = ChatItemTouchHelperCallback(archiveAdapter,true){
             val itemId = it.id
             viewModel.restoreFromArchive(itemId)

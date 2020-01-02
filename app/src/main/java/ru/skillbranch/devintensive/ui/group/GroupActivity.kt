@@ -12,6 +12,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.view.children
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
@@ -79,7 +80,10 @@ class GroupActivity : AppCompatActivity() {
     private fun initViews() {
         //delegate.localNightMode = AppCompatDelegate.MODE_NIGHT_YES
         userAdapter = UserAdapter { viewModel.handleSelectedItem(it.id) }
-        val divider = ChatItemDecoration(this)
+        //val divider = ChatItemDecoration(this)
+        val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
+        divider.setDrawable(resources.getDrawable(R.drawable.divider,theme))
+
         with(rv_user_list){
             adapter = userAdapter
             layoutManager = LinearLayoutManager(this@GroupActivity)
