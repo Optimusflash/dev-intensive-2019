@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -16,7 +15,6 @@ import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.extensions.getColorByThemeAttr
 import ru.skillbranch.devintensive.ui.adapters.ChatAdapter
 import ru.skillbranch.devintensive.ui.adapters.ChatItemTouchHelperCallback
-import ru.skillbranch.devintensive.ui.custom.ChatItemDecoration
 import ru.skillbranch.devintensive.viewmodels.ArchiveViewModel
 
 

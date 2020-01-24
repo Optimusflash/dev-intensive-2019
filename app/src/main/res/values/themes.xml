@@ -24,5 +24,7 @@
         <item name="colorActivityBackground">@color/color_activity_background_light</item>
         <item name="colorChipBackground">@color/color_chip_background_light</item>
         <item name="colorDivider">@color/color_divider_light</item>
+        <item name="colorAccentedSurface">@color/color_primary_light</item>
+
     </style>
 </resources>
